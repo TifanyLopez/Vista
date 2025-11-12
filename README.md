@@ -21,8 +21,10 @@ flask
 
 
 ## Vista principal
-![alt text](image.png)
+![alt text](/static/img/paginaprincipal.png)
 ## Vista de acceso
-![alt text](image-1.png)
+![alt text](/static/img/iniciarsesion.png)
 ## Vista dashboard (panel)
-![alt text](image-2png)
+![alt text](/static/img/inicio1.png)
+
+# Vista
