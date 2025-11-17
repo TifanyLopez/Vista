@@ -4,7 +4,7 @@
 python -m venv venv
 
 **Crear el archivo:**
-pip freeze > requirements.txt
+pip freeze > requirements.txt 
 
 **Instalarlo**
 pip install -r requirements.txt
