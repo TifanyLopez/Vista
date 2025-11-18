@@ -17,7 +17,6 @@
 
                     <!-- Panel derecho -->
                     <div class="col-md-7 p-4">
-                        <!-- Mostrar error si existe -->
                         {% if error %}
                         <div class="alert alert-danger text-center">{{ error }}</div>
                         {% endif %}
@@ -35,53 +34,54 @@
 
                             <div class="mb-3">
                                 <label for="email" class="form-label">Correo electrónico</label>
-                                <input type="email" class="form-control" id="email" name="email"
-                                       placeholder="Ingrese su correo electrónico"
-                                       data-bs-toggle="tooltip"
-                                       data-bs-placement="bottom"
-                                       title="Ingrese su correo electrónico"
-                                       required>
+                                <input type="email" class="form-control" id="email" name="email" placeholder="Ingrese su correo electrónico" required>
                             </div>
 
                             <div class="mb-3">
                                 <label for="password" class="form-label">Contraseña</label>
-                                <input type="password" class="form-control" id="password" name="password"
-                                       placeholder="Ingrese su contraseña"
-                                       data-bs-toggle="tooltip"
-                                       data-bs-placement="bottom"
-                                       title="Ingrese su contraseña"
-                                       required>
+                                <div class="input-group">
+                                    <input type="password" class="form-control" id="password" name="password" placeholder="Ingrese su contraseña" required>
+                                    <span class="input-group-text" onclick="togglePassword('password', 'iconLogin')" style="cursor:pointer;">
+                                        <img id="iconLogin" src="https://cdn-icons-png.flaticon.com/512/709/709612.png" width="20">
+                                    </span>
+                                </div>
                             </div>
 
                             <button type="submit" class="btn btn-primary w-100">Iniciar Sesión</button>
                         </form>
 
                         <!-- Register Form -->
-                        <form id="registerForm" method="post" action="{listar_agregados'}" style="display: none;">
+                        <form id="registerForm" method="post" action="{{ url_for('listar_agregados') }}" style="display: none;">
                             <h3 class="mb-3 text-center">Registro</h3>
 
                             <div class="mb-3">
                                 <label for="nombre" class="form-label">Nombre completo</label>
-                                <input type="text" class="form-control" id="nombre" name="nombre"
-                                       placeholder="Ingrese su nombre completo" required>
+                                <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Ingrese su nombre completo" required>
                             </div>
 
                             <div class="mb-3">
                                 <label for="emailReg" class="form-label">Correo electrónico</label>
-                                <input type="email" class="form-control" id="emailReg" name="email"
-                                       placeholder="Ingrese su correo electrónico" required>
+                                <input type="email" class="form-control" id="emailReg" name="email" placeholder="Ingrese su correo electrónico" required>
                             </div>
 
                             <div class="mb-3">
                                 <label for="passwordReg" class="form-label">Contraseña</label>
-                                <input type="password" class="form-control" id="passwordReg" name="password"
-                                       placeholder="Cree una contraseña" required>
+                                <div class="input-group">
+                                    <input type="password" class="form-control" id="passwordReg" name="password" placeholder="Cree una contraseña" required>
+                                    <span class="input-group-text" onclick="togglePassword('passwordReg', 'iconReg1')" style="cursor:pointer;">
+                                        <img id="iconReg1" src="https://cdn-icons-png.flaticon.com/512/709/709612.png" width="20">
+                                    </span>
+                                </div>
                             </div>
 
                             <div class="mb-3">
                                 <label for="confirm_password" class="form-label">Confirmar Contraseña</label>
-                                <input type="password" class="form-control" id="confirm_password" name="confirm_password"
-                                       placeholder="Confirme su contraseña" required>
+                                <div class="input-group">
+                                    <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Confirme su contraseña" required>
+                                    <span class="input-group-text" onclick="togglePassword('confirm_password', 'iconReg2')" style="cursor:pointer;">
+                                        <img id="iconReg2" src="https://cdn-icons-png.flaticon.com/512/709/709612.png" width="20">
+                                    </span>
+                                </div>
                             </div>
 
                             <button type="submit" class="btn btn-success w-100">Registrarse</button>
@@ -93,15 +93,15 @@
     </div>
 </div>
 
-<!-- Script de Bootstrap y tooltip -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 <script>
+// Alternar login/registro
 document.addEventListener('DOMContentLoaded', function () {
     const loginForm = document.getElementById('loginForm');
     const registerForm = document.getElementById('registerForm');
     const toggleBtn = document.getElementById('toggleFormBtn');
 
-    // alternar formularios
     toggleBtn.addEventListener('click', function () {
         if (loginForm.style.display === 'none') {
             loginForm.style.display = 'block';
@@ -113,16 +113,23 @@ document.addEventListener('DOMContentLoaded', function () {
             toggleBtn.textContent = 'Iniciar Sesión';
         }
     });
-
-    // activar tooltips de bootstrap
-    const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-    tooltipTriggerList.map(function (tooltipTriggerEl) {
-        return new bootstrap.Tooltip(tooltipTriggerEl);
-    });
 });
+
+// Función para mostrar/ocultar contraseña
+function togglePassword(inputId, iconId) {
+    const input = document.getElementById(inputId);
+    const icon = document.getElementById(iconId);
+
+    if (input.type === "password") {
+        input.type = "text";
+        icon.src = "https://cdn-icons-png.flaticon.com/512/159/159604.png"; // icono ojo abierto
+    } else {
+        input.type = "password";
+        icon.src = "https://cdn-icons-png.flaticon.com/512/709/709612.png"; // icono ojo cerrado
+    }
+}
 </script>
 
-<!-- Mostrar mensajes flash -->
 {% with messages = get_flashed_messages(with_categories=True) %}
   {% if messages %}
     {% for category, message in messages %}

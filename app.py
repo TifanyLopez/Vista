@@ -280,9 +280,8 @@ def editar_datos():
     flash("actualizado correctamente", "success")
     return redirect(url_for('listar_informacion'))
 
-# Eliminar
-@app.route('/eliminar_datos/<int:id>')
-def eliminar_datos(id):
+@app.route('/eliminar/<int:id>', methods=['GET'])
+def eliminar_dato(id):   # <-- Cambié el nombre
     conn = get_db_connection()
     cursor = conn.cursor()
     cursor.execute("DELETE FROM datos WHERE id = %s", (id,))
@@ -291,6 +290,6 @@ def eliminar_datos(id):
     conn.close()
     flash("Eliminado correctamente", "success")
     return redirect(url_for('listar_informacion'))
-    
+
 if __name__ == '__main__':
     app.run(debug=True, port=8000)
