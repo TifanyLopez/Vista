@@ -66,13 +66,11 @@ def listarUsuario():
         email = request.form.get('email')
         password = request.form.get('password')
 
-        hash_password = pbkdf2_sha256.hash(password)
-
         conn = get_db_connection()
         cursor = conn.cursor()
         cursor.execute(
             "INSERT INTO usuario (nombre, email, password, id_rol) VALUES (%s, %s, %s, '2')",
-            (nombre, email, hash_password)
+            (nombre, email, password)
         )
         conn.commit()
         cursor.close()
@@ -108,13 +106,11 @@ def updateUsuario():
         email = request.form['email']
         password = request.form['password']
 
-        hash_password = pbkdf2_sha256.hash(password)
-
         conn = get_db_connection()
         cursor = conn.cursor()
         cursor.execute(
             "UPDATE usuario SET nombre = %s, email = %s, password = %s WHERE id = %s",
-            (nombre, email, hash_password, id)
+            (nombre, email, password, id)
         )
         conn.commit()
         cursor.close()
@@ -217,6 +213,7 @@ def admin():
                            total_personas=total_vista,
                            total_vista=total_datos)
 
+@app.route('/listarusuario')
 def listaregistro():
     return render_template('listaregistro.html')
 
@@ -283,8 +280,9 @@ def editar_datos():
     flash("actualizado correctamente", "success")
     return redirect(url_for('listar_informacion'))
 
-@app.route('/eliminar_dato/<int:id>', methods=['GET'])
-def eliminar_dato(id):   # <-- Cambié el nombre
+# Eliminar
+@app.route('/eliminar_datos/<int:id>')
+def eliminar_datos(id):
     conn = get_db_connection()
     cursor = conn.cursor()
     cursor.execute("DELETE FROM datos WHERE id = %s", (id,))
@@ -293,6 +291,6 @@ def eliminar_dato(id):   # <-- Cambié el nombre
     conn.close()
     flash("Eliminado correctamente", "success")
     return redirect(url_for('listar_informacion'))
-
+    
 if __name__ == '__main__':
     app.run(debug=True, port=8000)
