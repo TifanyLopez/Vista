@@ -217,7 +217,6 @@ def admin():
                            total_personas=total_vista,
                            total_vista=total_datos)
 
-@app.route('/listarusuario')
 def listaregistro():
     return render_template('listaregistro.html')
 
