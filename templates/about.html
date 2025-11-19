@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="card shadow-lg border-0 rounded-4">
+                <div class="card-body p-5">
+                    <!-- Título principal -->
+                    <h1 class="card-title text-center mb-4 text-primary fw-bold">
+                        🐦 Sobre Nosotros
+                    </h1>
+                    
+                    <!-- Texto principal -->
+                    <p class="card-text text-muted fs-5">
+                        Nuestra misión es fomentar el conocimiento, la admiración y la conservación de las aves a través de información precisa, accesible y apasionante.  
+                        Nos comprometemos a ser una fuente confiable para observadores, estudiantes, investigadores y amantes de la naturaleza, promoviendo el respeto por la biodiversidad y el valor ecológico de las aves en nuestro entorno.
+                    </p>
+
+                    <!-- Lista de características -->
+                    <ul class="list-group list-group-flush mb-4">
+                        <li class="list-group-item d-flex align-items-center">
+                            📘 <span class="ms-2">Información educativa</span>
+                        </li>
+                        <li class="list-group-item d-flex align-items-center">
+                            📸 <span class="ms-2">Galería fotográfica</span>
+                        </li>
+                    </ul>
+
+                    <!-- Botón -->
+                    <div class="text-center">
+                        <a href="/contacto" class="btn btn-primary px-4 py-2 rounded-pill shadow-sm">
+                            ✉️ Contáctanos
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Sección acerca de la aplicación -->
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-10 text-center">
+            <h2 class="fw-bold text-success">🌍 Acerca de la Aplicación</h2>
+            <p class="text-muted fs-5">
+                Nuestra aplicación es el compañero perfecto para los amantes de las aves que quieren llevar su pasión a todas partes.
+            </p>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

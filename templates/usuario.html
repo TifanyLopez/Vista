@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Usuario</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        h1 {
+            font-weight: 700;
+            color: #2c3e50;
+        }
+        p {
+            color: #555;
+        }
+        .card {
+            border: none;
+            border-radius: 1rem;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+            transition: transform 0.2s ease-in-out;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        .card-title {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        .extra-info {
+            display: none;
+            text-align: left;
+            margin-top: 10px;
+        }
+        .btn-primary {
+            border-radius: 30px;
+        }
+        .btn-outline-secondary {
+            border-radius: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+        <div class="container-fluid">
+            <a class="navbar-brand fw-bold" href="#">Usuario Panel</a>
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('logout') }}">Cerrar Sesión</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <div class="container mt-5 text-center">
+        <h1>Bienvenido, Usuario 👋</h1>
+        <p>Desde aquí puedes ver tu información y realizar acciones permitidas.</p>
+
+        <div class="row mt-4 g-4 justify-content-center">
+
+            <!-- PERFIL -->
+            <div class="col-md-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">👤 Mi Perfil</h5>
+                        <p class="card-text">Ver y actualizar tu información personal.</p>
+                        <button class="btn btn-primary" onclick="toggleInfo('perfil', this)">Mostrar Detalles</button>
+                        <div id="info-perfil" class="extra-info">
+                            <ul class="list-unstyled mt-3">
+                                <li><strong>Nombre:</strong> Juan Pérez</li>
+                                <li><strong>Email:</strong> juan@example.com</li>
+                                <li><strong>Rol:</strong> Usuario Registrado</li>
+                                <li><a href="#" class="btn btn-sm btn-outline-secondary mt-2">Editar Perfil</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ACTIVIDADES -->
+            <div class="col-md-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">📌 Mis Actividades</h5>
+                        <p class="card-text">Ver historial o tareas asignadas.</p>
+                        <button class="btn btn-primary" onclick="toggleInfo('actividades', this)">Mostrar Detalles</button>
+                        <div id="info-actividades" class="extra-info">
+                            <ul class="list-group list-group-flush text-start mt-3">
+                                <li class="list-group-item">✅ Tarea 1: Actualizar perfil</li>
+                                <li class="list-group-item">📩 Tarea 2: Leer notificaciones</li>
+                                <li class="list-group-item">📂 Tarea 3: Descargar documentos</li>
+                            </ul>
+                            <a href="#" class="btn btn-sm btn-outline-secondary mt-3">Ver Todo</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CERRAR SESIÓN -->
+            <div class="col-md-4">
+                <div class="card h-100 border-danger">
+                    <div class="card-body">
+                        <h5 class="card-title text-danger">🚪 Cerrar Sesión</h5>
+                        <p class="card-text">Salir de tu cuenta actual.</p>
+                        <a href="{{ url_for('logout') }}" class="btn btn-danger">Cerrar Sesión</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- SCRIPTS -->
+    <script>
+        function toggleInfo(section, btn) {
+            const infoBox = document.getElementById("info-" + section);
+            const isVisible = infoBox.style.display === "block";
+            infoBox.style.display = isVisible ? "none" : "block";
+            btn.textContent = isVisible ? "Mostrar Detalles" : "Ocultar Detalles";
+        }
+    </script>
+
+</body>
+</html>

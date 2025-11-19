@@ -1,0 +1,86 @@
+{% extends 'badmin.html' %}
+
+{% block title %}Panel de Administrador - Aves Más Vistas{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <h2 class="text-center mb-5 fw-bold">🌟 Aves Más Vistas 🌟</h2>
+
+    <div class="row g-4">
+        {% set aves_mas_vistas = [
+            {'nombre': 'Cardenal', 'descripcion': 'Ave brillante y muy llamativa, conocida por su canto melodioso.', 'imagen_url': 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Paroaria_coronata_-Koke%27e_State_Park%2C_Hawaii%2C_USA-8.jpg/250px-Paroaria_coronata_-Koke%27e_State_Park%2C_Hawaii%2C_USA-8.jpg', 'vistas': 120, 'info': 'El cardenal es conocido por su color rojo intenso y su canto melodioso que atrae a los observadores de aves.'},
+            {'nombre': 'Colibrí', 'descripcion': 'Pequeño y veloz, puede mover sus alas hasta 80 veces por segundo.', 'imagen_url': 'https://upload.wikimedia.org/wikipedia/commons/d/d1/Colibri_serrirostris-White-vented_Violetear_%28Male%29.JPG', 'vistas': 95, 'info': 'El colibrí es capaz de volar hacia atrás y se alimenta principalmente de néctar de flores.'},
+            {'nombre': 'Guacamayo', 'descripcion': 'Ave tropical con plumaje colorido y muy sociable.', 'imagen_url': 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSsITRZqK340qJpX7cI87llPkPjfs1-IBt3Z8ol_pYJ5A-a5o7BY2Sm03kIDlcPpjlZehROegwhLvyFs5tggj9dZQm_jotGJsTxKhTbCnE', 'vistas': 78, 'info': 'El guacamayo puede vivir hasta 50 años y forma vínculos muy fuertes con su pareja.'},
+            {'nombre': 'Pavo Real', 'descripcion': 'Famoso por su cola espectacular y sus colores brillantes.', 'imagen_url': 'https://cdn0.bioenciclopedia.com/es/posts/8/3/1/pavo_real_138_orig.jpg', 'vistas': 65, 'info': 'El pavo real despliega su cola para atraer pareja y puede medir más de 2 metros de longitud.'},
+            {'nombre': 'Flamenco', 'descripcion': 'Con plumaje rosado y elegante postura, se encuentra en lagunas y humedales.', 'imagen_url': 'https://salroche.com/cdn/shop/articles/1010083.jpg?v=1598464073', 'vistas': 55, 'info': 'El flamenco obtiene su color rosado de los carotenoides presentes en su dieta de algas y crustáceos.'}
+        ] %}
+
+        {% for ave in aves_mas_vistas %}
+        <div class="col-12 col-md-6 col-lg-4">
+            <div class="card border-0 shadow-lg hover-shadow position-relative" style="transition: transform 0.3s;">
+                <img src="{{ ave.imagen_url }}" class="card-img-top" alt="{{ ave.nombre }}" style="height: 220px; object-fit: cover; border-radius: .5rem;">
+                
+                {% if ave.vistas >= 100 %}
+                    {% set badge_color = 'bg-danger' %}
+                {% elif ave.vistas >= 70 %}
+                    {% set badge_color = 'bg-warning text-dark' %}
+                {% else %}
+                    {% set badge_color = 'bg-secondary' %}
+                {% endif %}
+                <span class="badge {{ badge_color }} position-absolute top-0 end-0 m-2 fs-6">
+                    {{ ave.vistas }} vistas
+                </span>
+
+                <div class="card-body text-center">
+                    <h5 class="card-title fw-bold">{{ ave.nombre }}</h5>
+                    <p class="card-text text-muted">{{ ave.descripcion }}</p>
+                    <!-- Botón que abre el modal -->
+                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modal{{ loop.index }}">
+                        Ver detalles
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal de detalles -->
+        <div class="modal fade" id="modal{{ loop.index }}" tabindex="-1" aria-labelledby="modalLabel{{ loop.index }}" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title fw-bold" id="modalLabel{{ loop.index }}">{{ ave.nombre }}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    </div>
+                    <div class="modal-body text-center">
+                        <img src="{{ ave.imagen_url }}" class="img-fluid rounded mb-3" alt="{{ ave.nombre }}">
+                        <p>{{ ave.info }}</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+    .hover-shadow:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.3);
+    }
+    .card-title {
+        color: #2c3e50;
+    }
+    .card-text {
+        font-size: 0.9rem;
+    }
+    .btn-primary {
+        background-color: #1abc9c;
+        border: none;
+    }
+    .btn-primary:hover {
+        background-color: #16a085;
+    }
+</style>
+{% endblock %}

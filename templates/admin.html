@@ -1,0 +1,66 @@
+{% extends 'badmin.html' %}
+{% block title %}Panel de Administrador{% endblock %}
+
+{% block body %}
+<div class="container p-5 mt-3">
+    <h2 class="text-center alert alert-danger py-4">Sistema de Gestión de Aves</h2>
+
+    <div class="row text-center">
+        <!-- Total Usuarios -->
+        <div class="col-md-4 mb-3">
+            <div class="card" style="background: linear-gradient(180deg, #355e3b, #7a9f7a, #f1eeda);">
+                <div class="row g-0">
+                    <div class="col-md-8">
+                        <div class="card-body text-white">
+                            <h5 class="card-title">Total de usuarios</h5>
+                            <h3 class="display-6 fw-bold text-light">{{ total_usuarios }}</h3>
+                            <a href="{{ url_for('listarUsuario') }}" class="btn btn-outline-success">Ver Detalles</a>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <img src="{{ url_for('static', filename='img/person.png') }}" class="img-fluid rounded-start" alt="Usuarios">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Total Personas Registradas -->
+        <div class="col-md-4 mb-3">
+            <div class="card" style="background: linear-gradient(180deg, #042bf1,#367cd9,#ffffff);">
+                <div class="row g-0">
+                    <div class="col-md-8">
+                        <div class="card-body text-white">
+                            <h5 class="card-title">Total de personas registradas</h5>
+                            <h3 class="display-6 fw-bold text-light">{{ total_personas }}</h3>
+                            <a href="{{ url_for('listar_agregados') }}" class="btn btn-outline-success">Ver Detalles</a>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <a href="{{ url_for('registro') }}">
+                            <img src="{{ url_for('static', filename='img/usuario.jpg') }}" class="img-fluid rounded-start" alt="Registro Personas">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Total Aves /-->
+        <div class="col-md-4 mb-3">
+            <div class="card" style="background: linear-gradient(180deg, #0b235c,#3d85a9,#e0f7ff);">
+                <div class="row g-0">
+                    <div class="col-md-8">
+                        <div class="card-body text-white">
+                            <h5 class="card-title">Total de aves / Informacion</h5>
+                            <h3 class="display-6 fw-bold text-light">{{ total_vista }}</h3>
+                            <a href="{{ url_for('listaregistro') }}" class="btn btn-outline-success">Ver Detalles</a>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <img src="{{ url_for('static', filename='img/ave.png') }}" class="img-fluid rounded-start" alt="Aves">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

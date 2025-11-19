@@ -1,0 +1,163 @@
+{% extends 'badmin.html' %}
+{% block title %}Lista Usuarios{% endblock %}
+
+{% block body %}
+<div class="container p-5 mt-3">
+  <h2 class="text-center alert alert-danger py-4 shadow">Lista de Usuarios</h2>
+
+  <!-- Tabla -->
+  <table id="tabladatos" class="table table-hover table-bordered table-striped shadow">
+    <thead class="table-dark text-center">
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Correo</th>
+        <th>Descripción</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody class="text-center">
+      {% for p in datos %}
+      <tr>
+        <td>{{ p.id }}</td>
+        <td>{{ p.nombre }}</td>
+        <td>{{ p.correo }}</td>
+        <td>{{ p.descripcion }}</td>
+        <td>
+          <!-- Botón Editar -->
+          <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#modaledit{{ p.id }}">
+            <i class="bi bi-pencil-fill"></i> Editar
+          </button>
+
+          <!-- Botón Eliminar -->
+          <button class="btn btn-danger btn-sm"
+           onclick="confirmarEliminacion(`{{ url_for('eliminar_datos', id=p.id) }}`)">
+            <i class="bi bi-trash-fill"></i> Eliminar
+          </button>
+        </td>
+      </tr>
+
+      <!-- Modal Editar -->
+      <div class="modal fade" id="modaledit{{ p.id }}" tabindex="-1" aria-labelledby="modaledit{{ p.id }}Label"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header bg-success text-white">
+              <h5 class="modal-title" id="modaledit{{ p.id }}Label">Editar Usuario</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form action="{{ url_for('editar_datos') }}" method="post">
+              <div class="modal-body">
+                <input type="hidden" name="id" value="{{ p.id }}">
+                <div class="mb-3">
+                  <label class="form-label">Nombre</label>
+                  <input type="text" class="form-control" name="nombre" value="{{ p.nombre }}" required>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Correo</label>
+                  <input type="email" class="form-control" name="correo" value="{{ p.correo }}" required>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Descripción</label>
+                  <input type="text" class="form-control" name="descripcion" value="{{ p.descripcion }}">
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="submit" class="btn btn-outline-success">Actualizar</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  $(document).ready(function () {
+    $('#tabladatos').DataTable({
+      dom: 'Bfrtip',
+      pageLength: 5,
+      lengthMenu: [5, 10, 25, 50],
+      order: [[1, "asc"]],
+      columnDefs: [
+        { targets: [0, 2, 3, 4], orderable: false },
+        { searchable: false, targets: [0, 2, 3, 4] },
+        { width: '5%', targets: [0] }
+      ],
+      buttons: [
+        {
+          extend: 'copy',
+          text: '<i class="bi bi-clipboard-check-fill me-2"></i>Copiar',
+          className: 'btn btn-light border-primary text-primary fw-bold shadow-sm rounded-pill px-3 py-2',
+          exportOptions: { columns: ':not(:last-child)' }
+        },
+        {
+          extend: 'excel',
+          text: '<i class="bi bi-filetype-xlsx me-2"></i>Excel',
+          className: 'btn btn-light border-success text-success fw-bold shadow-sm rounded-pill px-3 py-2',
+          exportOptions: { columns: ':not(:last-child)' }
+        },
+        {
+          extend: 'pdf',
+          text: '<i class="bi bi-filetype-pdf me-2"></i>PDF',
+          className: 'btn btn-light border-danger text-danger fw-bold shadow-sm rounded-pill px-3 py-2',
+          exportOptions: { columns: ':not(:last-child)' }
+        },
+        {
+          extend: 'print',
+          text: '<i class="bi bi-printer-fill me-2"></i>Imprimir',
+          className: 'btn btn-light border-info text-info fw-bold shadow-sm rounded-pill px-3 py-2',
+          exportOptions: { columns: ':not(:last-child)' }
+        },
+        {
+          extend: 'colvis',
+          text: '<i class="bi bi-eye-fill me-2"></i>Columnas',
+          className: 'btn btn-light border-secondary text-secondary fw-bold shadow-sm rounded-pill px-3 py-2'
+        }
+      ],
+      language: { url: 'https://cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json' }
+    });
+  });
+
+  function confirmarEliminacion(url) {
+    Swal.fire({
+      title: '¿Eliminar este usuario?',
+      text: 'Esta acción no se puede deshacer.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) window.location.href = url;
+    });
+  }
+</script>
+
+<style>
+  .dt-buttons {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+  }
+  .dt-buttons .btn {
+    transition: all 0.3s ease;
+    font-size: 0.95rem;
+  }
+  .dt-buttons .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  }
+  .btn-light i {
+    font-size: 1.2rem;
+    vertical-align: middle;
+  }
+</style>
+{% endblock %}
